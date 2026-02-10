@@ -20,10 +20,16 @@ jobs:
           mkdir -p data
           echo "Last pulse: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" > data/heartbeat.txt
 
+      - name: Select random commit message
+        id: message
+        run: |
+          MESSAGE=$(shuf -n 1 .github/commit_messages.txt)
+          echo "commit_msg=$MESSAGE" >> $GITHUB_OUTPUT
+
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add data/heartbeat.txt
-          git commit -m "chore: daily heartbeat update ⚡" || echo "No changes to commit"
+          git commit -m "${{ steps.message.outputs.commit_msg }}" || echo "No changes to commit"
           git push
