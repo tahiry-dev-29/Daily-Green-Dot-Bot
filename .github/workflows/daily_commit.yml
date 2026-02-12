@@ -28,8 +28,8 @@ jobs:
 
       - name: Commit and Push
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email "tahirydev29@gmail.com"
+          git config --local user.name "Tahiry"
           git add data/heartbeat.txt
-          git commit -m "${{ steps.message.outputs.commit_msg }}" || echo "No changes to commit"
+          git commit -m "$(shuf -n 1 .github/commit_messages.txt)" || echo "No changes to commit"
           git push
